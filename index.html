@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMDB Rating API</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: black;
+            color: limegreen;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+        .container {
+            font-size: 2rem;
+            text-shadow: 0 0 10px limegreen;
+        }
+        .copy-box {
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid limegreen;
+            display: inline-block;
+            cursor: pointer;
+            background: rgba(0, 255, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>IMDB Rating API</div>
+        <div class="copy-box" onclick="copyToClipboard()">./rating?id=tt0944947</div>
+    </div>
+    <script>
+        function copyToClipboard() {
+            navigator.clipboard.writeText("./rating?id=tt0944947").then(() => {
+                alert("Copied to clipboard!");
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+            });
+        }
+    </script>
+</body>
+</html>
