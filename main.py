@@ -1,9 +1,16 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import requests
 
 app = Flask(__name__)
 
-GRAPHQL_URL = "https://graph.imdbapi.dev/v1" # imdb unofficial api (imdbapi.dev)
+GRAPHQL_URL = "https://graph.imdbapi.dev/v1"
+
+# you can set your custom port
+PORT = 5005
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/rating', methods=['GET'])
 def get_rating():
@@ -25,7 +32,7 @@ def get_rating():
 
     try:
         response = requests.post(GRAPHQL_URL, json={'query': query, 'variables': variables})
-        response.raise_for_status()  # http error check
+        response.raise_for_status()
         data = response.json()
 
         if 'errors' in data:
@@ -36,8 +43,10 @@ def get_rating():
 
     except requests.exceptions.RequestException as e:
         return jsonify({"error": str(e)}), 500
-    except (KeyError, TypeError):
-        return jsonify({"error": "Invalid response from GraphQL API"}), 500
+    except (KeyError, TypeError) as e:
+        return jsonify({"error": f"Invalid response from GraphQL API: {e}"}), 500
+    except Exception as e:
+        return jsonify({"error": f"An unexpected error occurred: {e}"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=PORT)
