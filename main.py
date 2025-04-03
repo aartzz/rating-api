@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
+CORS(app)
 
 GRAPHQL_URL = "https://graph.imdbapi.dev/v1"
 
-# you can set your custom port
+# set your custom port
 PORT = 5005
 
 @app.route('/')
